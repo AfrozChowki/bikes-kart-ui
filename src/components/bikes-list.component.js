@@ -1,5 +1,6 @@
 import React, { Component } from "react";
 import { connect } from "react-redux";
+import { Redirect } from "react-router-dom";
 import { retrieveBikes } from "../actions/bikes"
 
 class BikesList extends Component {
@@ -30,7 +31,11 @@ class BikesList extends Component {
 
     render () {
         const { currentBike, currentIndex } = this.state;
-        const { bikes } = this.props;
+        const { bikes, loginInfo } = this.props;
+        if(!loginInfo.isLoggedIn){
+          return <Redirect to="/"/>
+        }
+
         return (
         <div className="list row">
         <div className="col-md-6">
@@ -86,6 +91,7 @@ class BikesList extends Component {
 const mapStateToProps = (state) => {
     return {
         bikes: state.bikes,
+        loginInfo: state.login
     };
 };
 
